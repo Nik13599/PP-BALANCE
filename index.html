@@ -9,7 +9,7 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
   <meta name="screen-orientation" content="portrait" />
   <link rel="manifest" href="manifest.webmanifest" />
-  <link rel="stylesheet" href="app.css?v=4" />
+  <link rel="stylesheet" href="app.css?v=5" />
   <style>#map{display:none!important}</style>
   <title>PP Balance — Match-3</title>
 </head>
@@ -17,10 +17,7 @@
 <div class="app-shell">
   <div class="ambient"></div>
   <header class="topbar">
-    <div class="brand">
-      <div class="logo">PP</div>
-      <div class="brand-copy"><b>PP BALANCE</b><small>HEALTHY FOOD</small></div>
-    </div>
+    <div class="brand"><div class="logo">PP</div><div class="brand-copy"><b>PP BALANCE</b><small>HEALTHY FOOD</small></div></div>
     <div class="wallet">
       <div class="resource">❤️ <span id="livesTop">5/5</span></div>
       <div class="resource">🪙 <span id="coinsTop">12 560</span><i class="plus">+</i></div>
@@ -30,27 +27,10 @@
   </header>
 
   <main class="main">
-    <section class="screen active map-screen" id="map">
-      <div class="section-kicker">Карта уровней</div>
-      <div class="map-hero">
-        <svg class="map-road" viewBox="0 0 400 620" preserveAspectRatio="none" aria-hidden="true">
-          <path d="M34 505 C80 455 137 484 164 421 C189 361 268 386 299 314 C333 237 250 210 230 153 C209 94 132 113 98 162" fill="none" stroke="#1d211d" stroke-width="54" stroke-linecap="round"/>
-          <path d="M34 505 C80 455 137 484 164 421 C189 361 268 386 299 314 C333 237 250 210 230 153 C209 94 132 113 98 162" fill="none" stroke="#4d534b" stroke-width="42" stroke-linecap="round"/>
-          <path d="M34 505 C80 455 137 484 164 421 C189 361 268 386 299 314 C333 237 250 210 230 153 C209 94 132 113 98 162" fill="none" stroke="#d7d3ac" stroke-opacity=".65" stroke-width="3" stroke-dasharray="15 18" stroke-linecap="round"/>
-        </svg>
-        <div class="map-header">
-          <div class="season"><b id="mapSeason">PP Challenge</b><small>СЕЗОН АКТИВЕН</small></div>
-          <button class="daily-chip" id="dailyOpen">🎁 Награда дня</button>
-        </div>
-        <div class="map-decoration shop">🏪</div>
-        <div class="map-decoration bike">🛵</div>
-        <div class="map-decoration food">🥗</div>
-        <div id="levelNodes"></div>
-        <div class="map-caption">
-          <div><b id="mapCurrent">Уровень 24</b><small id="mapHint">Соберите цели и заработайте 3 звезды</small></div>
-          <button class="neon-btn" id="playCurrent">Играть</button>
-        </div>
-      </div>
+    <!-- Техническая совместимость со старым движком. Карта полностью скрыта от пользователя. -->
+    <section class="screen active" id="map" aria-hidden="true">
+      <b id="mapSeason"></b><button id="dailyOpen"></button><div id="levelNodes"></div>
+      <b id="mapCurrent"></b><small id="mapHint"></small><button id="playCurrent">Играть</button>
     </section>
 
     <section class="screen" id="game">
@@ -58,13 +38,10 @@
         <div class="game-top">
           <div class="game-stat"><small>ХОДЫ</small><b id="moves">22</b></div>
           <div class="goals" id="goalBox"></div>
-          <div class="game-stat"><small>СЧЁТ · УР. <span id="gameLevel">24</span></small><b id="score">0</b></div>
+          <div class="game-stat"><small>СЧЁТ · УР. <span id="gameLevel">1</span></small><b id="score">0</b></div>
         </div>
-        <div class="game-board-wrap">
-          <div class="game-board" id="board" aria-label="Игровое поле"></div>
-          <div class="fx-layer" id="fxLayer"></div>
-        </div>
-        <div class="game-message" id="gameMessage">Соберите полезные продукты</div>
+        <div class="game-board-wrap"><div class="game-board" id="board" aria-label="Игровое поле"></div><div class="fx-layer" id="fxLayer"></div></div>
+        <div class="game-message" id="gameMessage">Бесконечный сезон</div>
         <div class="booster-bar">
           <button class="booster" id="shuffleBtn"><span class="bicon">🔀</span>Микс<i class="count" id="shuffleCount">3</i></button>
           <button class="booster" id="bombBtn"><span class="bicon">💣</span>Бомба<i class="count" id="bombCount">2</i></button>
@@ -74,113 +51,35 @@
       </div>
     </section>
 
-    <section class="screen" id="daily">
-      <div class="content-pad">
-        <div class="section-kicker">Ежедневные награды</div>
-        <div class="page-head"><h1>Ежедневные награды</h1><p>Заходите каждый день и собирайте серию бонусов.</p></div>
-        <div class="panel daily-panel">
-          <div class="daily-grid" id="dailyGrid"></div>
-          <button class="neon-btn daily-claim" id="dailyClaimBtn">Получить</button>
-        </div>
-      </div>
-    </section>
+    <section class="screen" id="daily"><div class="content-pad"><div class="section-kicker">Ежедневные награды</div><div class="page-head"><h1>Ежедневные награды</h1><p>Заходите каждый день и собирайте серию бонусов.</p></div><div class="panel daily-panel"><div class="daily-grid" id="dailyGrid"></div><button class="neon-btn daily-claim" id="dailyClaimBtn">Получить</button></div></div></section>
 
     <section class="screen" id="tournament">
-      <div class="content-pad">
-        <div class="section-kicker">Турнир</div>
-        <div class="page-head"><h1 id="tournamentSeason">PP Challenge</h1><p>Соревнуйтесь за лидерство в сезонном рейтинге.</p></div>
-        <div class="panel tournament-card">
-          <div class="countdown">⏱ До конца: <b>2д 14ч 35м</b></div>
-          <div class="podium">
-            <div class="podium-user"><div class="avatar-ring" id="podAvatar0">🥑</div><b id="podName0">Алексей</b><small>🪙 <span id="podScore0">180 000</span></small><div class="podium-block">2</div></div>
-            <div class="podium-user first"><div class="avatar-ring" id="podAvatar1">👩</div><b id="podName1">Екатерина</b><small>🪙 <span id="podScore1">250 000</span></small><div class="podium-block">1</div></div>
-            <div class="podium-user third"><div class="avatar-ring" id="podAvatar2">👩🏻</div><b id="podName2">Мария</b><small>🪙 <span id="podScore2">120 000</span></small><div class="podium-block">3</div></div>
-          </div>
-          <div class="your-rank"><div class="rank-food">🥗</div><div><b>Ваш результат</b><small>Текущий сезон</small></div><b id="yourTournamentScore">0</b></div>
-        </div>
+      <div class="content-pad"><div class="section-kicker">Турнир</div><div class="page-head"><h1 id="tournamentSeason">PP Challenge</h1><p>Соревнуйтесь за лидерство в сезонном рейтинге.</p></div>
+        <div class="panel tournament-card"><div class="countdown">⏱ До конца: <b>2д 14ч 35м</b></div><div class="podium">
+          <div class="podium-user"><div class="avatar-ring" id="podAvatar0">🥑</div><b id="podName0">Алексей</b><small>🪙 <span id="podScore0">180 000</span></small><div class="podium-block">2</div></div>
+          <div class="podium-user first"><div class="avatar-ring" id="podAvatar1">👩</div><b id="podName1">Екатерина</b><small>🪙 <span id="podScore1">250 000</span></small><div class="podium-block">1</div></div>
+          <div class="podium-user third"><div class="avatar-ring" id="podAvatar2">👩🏻</div><b id="podName2">Мария</b><small>🪙 <span id="podScore2">120 000</span></small><div class="podium-block">3</div></div>
+        </div><div class="your-rank"><div class="rank-food">🥗</div><div><b>Ваш результат</b><small>Текущий сезон</small></div><b id="yourTournamentScore">0</b></div></div>
       </div>
     </section>
 
-    <section class="screen" id="shop">
-      <div class="content-pad">
-        <div class="section-kicker">Магазин</div>
-        <div class="panel" style="padding:12px">
-          <div class="panel-title"><div><h2>Магазин</h2><small>Баланс: 🪙 <span id="coinsShop">12 560</span></small></div></div>
-          <div class="shop-tabs"><button class="active">Бустеры</button><button>Жизни</button><button>Монеты</button><button>Наборы</button></div>
-          <div class="shop-grid" id="shopItems"></div>
-          <div class="pack-grid">
-            <article class="pack"><b>Набор здоровья</b><div class="pack-art">❤️💎🥗</div><small>5 жизней · 2 алмаза · бустер</small><button class="price-btn" id="buyPack199">🪙 199</button></article>
-            <article class="pack"><b>Набор PRO</b><div class="pack-art">💚💎🛍️</div><small>Все жизни и усиленные бустеры</small><button class="price-btn" id="buyPack399">🪙 399</button></article>
-          </div>
-        </div>
-      </div>
-    </section>
+    <section class="screen" id="shop"><div class="content-pad"><div class="section-kicker">Магазин</div><div class="panel" style="padding:12px"><div class="panel-title"><div><h2>Магазин</h2><small>Баланс: 🪙 <span id="coinsShop">12 560</span></small></div></div><div class="shop-tabs"><button class="active">Бустеры</button><button>Жизни</button><button>Монеты</button><button>Наборы</button></div><div class="shop-grid" id="shopItems"></div><div class="pack-grid"><article class="pack"><b>Набор здоровья</b><div class="pack-art">❤️💎🥗</div><small>5 жизней · 2 алмаза · бустер</small><button class="price-btn" id="buyPack199">🪙 199</button></article><article class="pack"><b>Набор PRO</b><div class="pack-art">💚💎🛍️</div><small>Все жизни и усиленные бустеры</small><button class="price-btn" id="buyPack399">🪙 399</button></article></div></div></div></section>
 
-    <section class="screen" id="profile">
-      <div class="content-pad">
-        <div class="section-kicker">Профиль</div>
-        <div class="panel profile-card">
-          <div class="profile-avatar" id="profileAvatar">Н</div>
-          <h2 id="profileName">Игрок PP Balance</h2>
-          <p>Уровень <span id="levelTop">24</span> · участник сезона</p>
-        </div>
-        <div class="stats-grid">
-          <div class="stat-box"><span>🏆</span><b id="profileBest">0</b><small>Лучший счёт</small></div>
-          <div class="stat-box"><span>🎮</span><b id="profileGames">0</b><small>Игр сыграно</small></div>
-          <div class="stat-box"><span>🥗</span><b id="profileCollected">0</b><small>Фишек собрано</small></div>
-          <div class="stat-box"><span>⭐</span><b id="profileLevel">24</b><small>Текущий уровень</small></div>
-        </div>
-      </div>
-    </section>
+    <section class="screen" id="profile"><div class="content-pad"><div class="section-kicker">Профиль</div><div class="panel profile-card"><div class="profile-avatar" id="profileAvatar">Н</div><h2 id="profileName">Игрок PP Balance</h2><p>Уровень <span id="levelTop">1</span> · бесконечный сезон</p></div><div class="stats-grid"><div class="stat-box"><span>🏆</span><b id="profileBest">0</b><small>Лучший счёт</small></div><div class="stat-box"><span>🎮</span><b id="profileGames">0</b><small>Игр сыграно</small></div><div class="stat-box"><span>🥗</span><b id="profileCollected">0</b><small>Фишек собрано</small></div><div class="stat-box"><span>⭐</span><b id="profileLevel">1</b><small>Текущий уровень</small></div></div></div></section>
   </main>
 
-  <nav class="bottom-nav">
-    <button data-screen="shop"><span>🏪</span>Магазин</button>
-    <button data-screen="tournament"><span>🏆</span>Турнир</button>
-    <button class="active" data-screen="map"><span>🎮</span>Игра</button>
-    <button data-screen="profile"><span>👥</span>Профиль</button>
-  </nav>
+  <nav class="bottom-nav"><button data-screen="shop"><span>🏪</span>Магазин</button><button data-screen="tournament"><span>🏆</span>Турнир</button><button class="active" data-screen="map"><span>🎮</span>Игра</button><button data-screen="profile"><span>👥</span>Профиль</button></nav>
 </div>
 
-<div class="modal" id="winModal">
-  <div class="modal-card">
-    <div class="modal-logo">PP BALANCE<small>HEALTHY FOOD</small></div>
-    <button class="modal-close" data-close="winModal">✕</button>
-    <div style="font-size:12px;color:#c8d0c6;margin-top:10px">УРОВЕНЬ ПРОЙДЕН</div>
-    <div class="win-title" id="resultTitle">ПРОЙДЕН!</div>
-    <div class="stars"><span class="star">★</span><span class="star">★</span><span class="star">★</span></div>
-    <div class="result-score">СЧЁТ<b id="resultScore">0</b></div>
-    <div class="reward-bowl">🥗</div>
-    <div class="reward-row"><div class="reward-pill"><span>🪙</span><b id="resultCoins">250</b></div><div class="reward-pill"><span>💎</span><b id="resultGems">2</b></div></div>
-    <div class="modal-actions"><button class="neon-btn" id="nextLevelBtn">Следующий уровень</button><button class="dark-btn" id="mapAfterWin">Продолжить позже</button></div>
-  </div>
-</div>
+<div class="modal" id="winModal"><div class="modal-card"><div class="modal-logo">PP BALANCE<small>HEALTHY FOOD</small></div><button class="modal-close" data-close="winModal">✕</button><div style="font-size:12px;color:#c8d0c6;margin-top:10px">УРОВЕНЬ ПРОЙДЕН</div><div class="win-title" id="resultTitle">ПРОЙДЕН!</div><div class="stars"><span class="star">★</span><span class="star">★</span><span class="star">★</span></div><div class="result-score">СЧЁТ<b id="resultScore">0</b></div><div class="reward-bowl">🥗</div><div class="reward-row"><div class="reward-pill"><span>🪙</span><b id="resultCoins">250</b></div><div class="reward-pill"><span>💎</span><b id="resultGems">2</b></div></div><div class="modal-actions"><button class="neon-btn" id="nextLevelBtn">Следующий уровень</button><button class="dark-btn" id="mapAfterWin">Продолжить позже</button></div></div></div>
 
-<div class="modal" id="loseModal">
-  <div class="modal-card">
-    <button class="modal-close" data-close="loseModal">✕</button>
-    <div style="font-size:58px">🥦</div>
-    <div class="lose-title">Ходы закончились</div>
-    <p style="color:#879486">Ваш результат: <b id="loseScore" style="color:white">0</b></p>
-    <div class="modal-actions"><button class="neon-btn" id="retryBtn">Попробовать ещё</button><button class="dark-btn" id="mapAfterLose">Закрыть</button></div>
-  </div>
-</div>
+<div class="modal" id="loseModal"><div class="modal-card"><button class="modal-close" data-close="loseModal">✕</button><div style="font-size:58px">🥦</div><div class="lose-title">Ходы закончились</div><p style="color:#879486">Ваш результат: <b id="loseScore" style="color:white">0</b></p><div class="modal-actions"><button class="neon-btn" id="retryBtn">Попробовать ещё</button><button class="dark-btn" id="mapAfterLose">Закрыть</button></div></div></div>
 
-<div class="modal" id="settingsModal">
-  <div class="modal-card">
-    <button class="modal-close" data-close="settingsModal">✕</button>
-    <div class="modal-logo">PP BALANCE<small>НАСТРОЙКИ</small></div>
-    <div class="settings-list">
-      <div class="setting-row"><b>Звук</b><button class="switch" id="soundToggle"></button></div>
-      <div class="setting-row"><b>Вибрация</b><button class="switch" id="hapticToggle"></button></div>
-      <div class="setting-row"><b>Админ-панель</b><a class="dark-btn" href="admin.html" style="text-decoration:none;display:grid;place-items:center">Открыть</a></div>
-    </div>
-  </div>
-</div>
+<div class="modal" id="settingsModal"><div class="modal-card"><button class="modal-close" data-close="settingsModal">✕</button><div class="modal-logo">PP BALANCE<small>НАСТРОЙКИ</small></div><div class="settings-list"><div class="setting-row"><b>Звук</b><button class="switch" id="soundToggle"></button></div><div class="setting-row"><b>Вибрация</b><button class="switch" id="hapticToggle"></button></div><div class="setting-row"><b>Админ-панель</b><a class="dark-btn" href="admin.html" style="text-decoration:none;display:grid;place-items:center">Открыть</a></div></div></div></div>
 
 <div class="toast" id="toast"></div>
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
-<script src="endless-mode.js?v=1"></script>
-<script src="app.js?v=4"></script>
+<script src="endless-mode.js?v=2"></script>
+<script src="app.js?v=5"></script>
 </body>
 </html>
