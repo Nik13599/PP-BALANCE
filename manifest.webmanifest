@@ -1,0 +1,12 @@
+{
+  "name": "PP Balance Match-3",
+  "short_name": "PP Match-3",
+  "description": "Полноэкранная мобильная игра PP Balance",
+  "start_url": "./",
+  "scope": "./",
+  "display": "fullscreen",
+  "orientation": "portrait",
+  "background_color": "#082719",
+  "theme_color": "#082719",
+  "lang": "ru"
+}
