@@ -72,9 +72,7 @@ export function createBoard(size = BOARD_SIZE): Board {
   let attempts = 0;
 
   do {
-    board = Array.from({ length: size }, () =>
-      Array.from<Cell>({ length: size }).fill(null),
-    );
+    board = Array.from({ length: size }, () => Array<Cell>(size).fill(null));
 
     for (let row = 0; row < size; row += 1) {
       for (let col = 0; col < size; col += 1) {
@@ -167,9 +165,7 @@ function clearMatches(board: Board, matches: Position[]): Board {
 
 function collapseAndRefill(board: Board): Board {
   const size = board.length;
-  const next = Array.from({ length: size }, () =>
-    Array.from<Cell>({ length: size }).fill(null),
-  );
+  const next = Array.from({ length: size }, () => Array<Cell>(size).fill(null));
 
   for (let col = 0; col < size; col += 1) {
     const existing = board
