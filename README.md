@@ -1,5 +1,46 @@
 # PP BALANCE Match-3
 
-Telegram Mini App game for PP BALANCE. The first milestone is a playable mobile-first match-3 MVP built with React, TypeScript and Vite.
+Мобильная игра «3 в ряд» для запуска как Telegram Mini App. Визуальная концепция построена вокруг полезного питания и фирменной зелёной стилистики PP BALANCE.
 
-Development happens through pull requests. See the current PR for the latest playable build.
+## Что уже работает
+
+- полноценное поле 8×8;
+- управление нажатием и свайпом;
+- проверка допустимых ходов;
+- комбинации по горизонтали и вертикали;
+- каскады и множитель комбо;
+- очки, ограничение ходов и цель уровня;
+- победа, поражение и переход между уровнями;
+- ежедневная награда;
+- монеты и покупка дополнительных ходов;
+- бесплатное перемешивание поля;
+- сохранение прогресса в `localStorage`;
+- Telegram Web App bridge и тактильная обратная связь;
+- адаптивный интерфейс для мобильных устройств.
+
+## Запуск
+
+```bash
+npm install
+npm run dev
+```
+
+Откройте адрес, который покажет Vite. Для проверки Telegram-функций приложение нужно разместить на HTTPS и подключить URL к Telegram-боту через BotFather.
+
+## Проверка production-сборки
+
+```bash
+npm run build
+npm run preview
+```
+
+## Технологии
+
+- React
+- TypeScript
+- Vite
+- Telegram Web Apps API
+
+## Следующий этап
+
+В версии `v0.2` планируются анимированное удаление элементов, специальные фишки за комбинации 4–5, карта уровней, турниры, задания, профиль, серверное сохранение прогресса и подготовка платежей Telegram Stars.
