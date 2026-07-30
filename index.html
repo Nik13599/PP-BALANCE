@@ -9,7 +9,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
   <meta name="screen-orientation" content="portrait" />
   <link rel="manifest" href="manifest.webmanifest" />
-  <link rel="stylesheet" href="app.css?v=3" />
+  <link rel="stylesheet" href="app.css?v=4" />
+  <style>#map{display:none!important}</style>
   <title>PP Balance — Match-3</title>
 </head>
 <body>
@@ -136,7 +137,7 @@
   <nav class="bottom-nav">
     <button data-screen="shop"><span>🏪</span>Магазин</button>
     <button data-screen="tournament"><span>🏆</span>Турнир</button>
-    <button class="active" data-screen="map"><span>🗺️</span>Карта</button>
+    <button class="active" data-screen="map"><span>🎮</span>Игра</button>
     <button data-screen="profile"><span>👥</span>Профиль</button>
   </nav>
 </div>
@@ -151,7 +152,7 @@
     <div class="result-score">СЧЁТ<b id="resultScore">0</b></div>
     <div class="reward-bowl">🥗</div>
     <div class="reward-row"><div class="reward-pill"><span>🪙</span><b id="resultCoins">250</b></div><div class="reward-pill"><span>💎</span><b id="resultGems">2</b></div></div>
-    <div class="modal-actions"><button class="neon-btn" id="nextLevelBtn">Далее</button><button class="dark-btn" id="mapAfterWin">На карту</button></div>
+    <div class="modal-actions"><button class="neon-btn" id="nextLevelBtn">Следующий уровень</button><button class="dark-btn" id="mapAfterWin">Продолжить позже</button></div>
   </div>
 </div>
 
@@ -161,7 +162,7 @@
     <div style="font-size:58px">🥦</div>
     <div class="lose-title">Ходы закончились</div>
     <p style="color:#879486">Ваш результат: <b id="loseScore" style="color:white">0</b></p>
-    <div class="modal-actions"><button class="neon-btn" id="retryBtn">Попробовать ещё</button><button class="dark-btn" id="mapAfterLose">На карту</button></div>
+    <div class="modal-actions"><button class="neon-btn" id="retryBtn">Попробовать ещё</button><button class="dark-btn" id="mapAfterLose">Закрыть</button></div>
   </div>
 </div>
 
@@ -179,6 +180,7 @@
 
 <div class="toast" id="toast"></div>
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
-<script src="app.js?v=3"></script>
+<script src="endless-mode.js?v=1"></script>
+<script src="app.js?v=4"></script>
 </body>
 </html>
