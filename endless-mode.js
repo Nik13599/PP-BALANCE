@@ -4,40 +4,59 @@
   const CFG_KEY="ppb_admin_config_v1";
   const STORE_KEY="ppb_premium_state_v2";
   const BASE_KEY="ppb_endless_difficulty_base_v1";
+  const DEFAULT_ICONS=[
+    {id:"tomato",name:"Томат",kind:"emoji",value:"🍅"},
+    {id:"broccoli",name:"Брокколи",kind:"emoji",value:"🥦"},
+    {id:"egg",name:"Яйцо",kind:"emoji",value:"🍳"},
+    {id:"chicken",name:"Курица",kind:"emoji",value:"🍗"},
+    {id:"lettuce",name:"Салат",kind:"emoji",value:"🥬"},
+    {id:"rice",name:"Рис",kind:"emoji",value:"🍚"},
+    {id:"avocado",name:"Авокадо",kind:"emoji",value:"🥑"},
+    {id:"cucumber",name:"Огурец",kind:"emoji",value:"🥒"}
+  ];
 
   function read(key,fallback=null){
     try{return JSON.parse(localStorage.getItem(key)||"null")??fallback}catch{return fallback}
   }
 
-  const state=read(STORE_KEY,{level:1});
-  const level=Math.max(1,Number(state?.level)||1);
-  const cfg=read(CFG_KEY,null);
-  let originalCfg=null;
+  let savedState=read(STORE_KEY,null);
+  if(!savedState){
+    savedState={level:1};
+    localStorage.setItem(STORE_KEY,JSON.stringify(savedState));
+  }
+  const level=Math.max(1,Number(savedState.level)||1);
 
-  if(cfg?.season){
-    const currentTarget=Math.max(6500,Number(cfg.season.target)||48560);
-    const currentMoves=Math.max(16,Number(cfg.season.moves)||22);
-    let base=read(BASE_KEY,null);
+  const storedCfg=read(CFG_KEY,null);
+  const hasAdminCfg=Boolean(storedCfg?.season&&Array.isArray(storedCfg.icons)&&storedCfg.icons.length>=6);
+  const originalCfg=hasAdminCfg?structuredClone(storedCfg):null;
+  const cfg=hasAdminCfg?structuredClone(storedCfg):{
+    season:{name:"PP Challenge",subtitle:"Бесконечный сезон PP Balance",target:48560,moves:22,active:true},
+    prizes:[],
+    icons:DEFAULT_ICONS
+  };
 
-    if(!base||Number(base.target)!==currentTarget||Number(base.moves)!==currentMoves){
-      base={target:currentTarget,moves:currentMoves};
-      localStorage.setItem(BASE_KEY,JSON.stringify(base));
-    }
+  const currentTarget=Math.max(6500,Number(cfg.season.target)||48560);
+  const currentMoves=Math.max(16,Number(cfg.season.moves)||22);
+  let base=read(BASE_KEY,null);
 
-    originalCfg=structuredClone(cfg);
-
-    // Каждый следующий уровень строго сложнее предыдущего:
-    // цель по очкам растёт непрерывно, а количество ходов постепенно сокращается.
-    const scoreMultiplier=1+0.12*Math.log2(level)+0.0015*(level-1);
-    cfg.season.target=Math.round(base.target*scoreMultiplier);
-    cfg.season.moves=Math.max(16,base.moves-Math.floor((level-1)/12));
-    localStorage.setItem(CFG_KEY,JSON.stringify(cfg));
+  if(!base||Number(base.target)!==currentTarget||Number(base.moves)!==currentMoves){
+    base={target:currentTarget,moves:currentMoves};
+    localStorage.setItem(BASE_KEY,JSON.stringify(base));
   }
 
+  // Каждый следующий уровень строго сложнее предыдущего:
+  // цель по очкам растёт на каждом уровне, а число ходов постепенно уменьшается.
+  const scoreMultiplier=1+0.12*Math.log2(level)+0.0015*(level-1);
+  cfg.season.target=Math.round(base.target*scoreMultiplier);
+  cfg.season.moves=Math.max(16,base.moves-Math.floor((level-1)/12));
+  cfg.season.subtitle=`Бесконечный сезон · уровень ${level}`;
+  localStorage.setItem(CFG_KEY,JSON.stringify(cfg));
+
   document.addEventListener("DOMContentLoaded",()=>{
-    // Возвращаем базовые настройки в storage, чтобы админка продолжала показывать
-    // заданные администратором значения, а не вычисленную сложность уровня.
-    if(originalCfg)localStorage.setItem(CFG_KEY,JSON.stringify(originalCfg));
+    // После загрузки движка возвращаем исходную конфигурацию, чтобы админка
+    // показывала базовые значения. Для игроков без настроек временный конфиг удаляется.
+    if(hasAdminCfg)localStorage.setItem(CFG_KEY,JSON.stringify(originalCfg));
+    else localStorage.removeItem(CFG_KEY);
 
     const map=document.getElementById("map");
     if(map){
